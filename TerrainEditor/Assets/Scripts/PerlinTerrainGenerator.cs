@@ -7,6 +7,7 @@ namespace Assets.Scripts
         [SerializeField] float perlinXScale = 0.01f;
         [SerializeField] float perlinZScale = 0.01f;
         [SerializeField] float heightMultiplier = 10f;
+        [SerializeField] float heightOffset = 20f;
 
         protected override void Awake()
         {
@@ -36,7 +37,7 @@ namespace Assets.Scripts
             {
                 for(int z = 0; z < terrainData.heightmapResolution; z++)
                 {
-                    heightMap[x,z] = Mathf.PerlinNoise(x * perlinXScale, z * perlinZScale) * heightMultiplier;
+                    heightMap[x,z] = Mathf.PerlinNoise(x * perlinXScale, z * perlinZScale) * heightMultiplier + heightOffset;
                 }
             }
 

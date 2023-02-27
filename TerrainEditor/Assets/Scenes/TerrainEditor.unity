@@ -516,6 +516,7 @@ MonoBehaviour:
   perlinXScale: 0.01
   perlinZScale: 0.01
   heightMultiplier: 0.05
+  heightOffset: 0.2
 --- !u!4 &1405736093
 Transform:
   m_ObjectHideFlags: 0
@@ -577,5 +578,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 896867868}
   brush:
-    <Strength>k__BackingField: 0.005
-    <Size>k__BackingField: 50
+    <Strength>k__BackingField: 0.05
+    <Size>k__BackingField: 100
