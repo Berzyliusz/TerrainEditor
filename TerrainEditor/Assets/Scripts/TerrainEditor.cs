@@ -4,6 +4,8 @@ namespace Assets.Scripts
 {
     public class TerrainEditor : TerrainDependandtMonobehaviour
     {
+        [SerializeField] TerrainBrush brush;
+
         ITerrainEditorInput input;
         ITerrainPositionCalculator positionCalculator;
         ITerrainModifier terrainModifier;
@@ -14,7 +16,7 @@ namespace Assets.Scripts
 
             input = new TerrainEditorInput();
             positionCalculator = new TerrainPositionCalculator(terrain);
-            terrainModifier = new TerrainModifier(terrain);
+            terrainModifier = new TerrainModifier(terrain, brush);
         }
 
         void Update()

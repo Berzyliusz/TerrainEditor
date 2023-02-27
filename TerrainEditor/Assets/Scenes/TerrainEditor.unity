@@ -576,3 +576,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 896867868}
+  brush:
+    <Strength>k__BackingField: 0.005
+    <Size>k__BackingField: 50
