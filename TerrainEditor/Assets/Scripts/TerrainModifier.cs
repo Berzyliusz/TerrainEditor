@@ -20,8 +20,8 @@ namespace Assets.Scripts
         {
             int minX = Mathf.Max(pos.x - brush.Size, 0);
             int minY = Mathf.Max(pos.z - brush.Size, 0);
-            int width = Mathf.Min(terrainData.heightmapResolution - pos.x, brush.Size * 2);
-            int height = Mathf.Min(terrainData.heightmapResolution - pos.z, brush.Size * 2);
+            int width = Mathf.Min(terrainData.heightmapResolution - pos.x + brush.Size, brush.Size * 2);
+            int height = Mathf.Min(terrainData.heightmapResolution - pos.z + brush.Size, brush.Size * 2);
 
             float[,] heights = terrainData.GetHeights(minX, minY, width, height);
 
