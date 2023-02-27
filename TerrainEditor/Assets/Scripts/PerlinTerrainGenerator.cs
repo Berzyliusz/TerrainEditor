@@ -2,26 +2,15 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class PerlinTerrainGenerator : MonoBehaviour
+    public class PerlinTerrainGenerator : TerrainDependandtMonobehaviour
     {
-        [SerializeField] Terrain terrain;
         [SerializeField] float perlinXScale = 0.01f;
         [SerializeField] float perlinZScale = 0.01f;
         [SerializeField] float heightMultiplier = 10f;
 
-        void Awake()
+        protected override void Awake()
         {
-            if (!terrain)
-            {
-                terrain = FindObjectOfType<Terrain>();
-
-                if (!terrain)
-                {
-                    Debug.LogError("Terrain null, please plug in a terrain for perlin generator.");
-                    Destroy(this);
-                    return;
-                }
-            }
+            base.Awake();
 
             SetupTerrainParameters();
         }

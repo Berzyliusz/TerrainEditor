@@ -1,38 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class TerrainEditor : MonoBehaviour
+    public class TerrainEditor : TerrainDependandtMonobehaviour
     {
         ITerrainEditorInput input;
+        ITerrainPositionCalculator positionCalculator;
+        ITerrainModifier terrainModifier;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             input = new TerrainEditorInput();
+            positionCalculator = new TerrainPositionCalculator(terrain);
+            terrainModifier = new TerrainModifier(terrain);
         }
 
         void Update()
         {
             if (!input.LowerTerrain && !input.RaiseTerrain)
                 return;
-            var mousePos = Input.mousePosition;
+
+            var mousePos = input.MousePosition;
             var ray = Camera.main.ScreenPointToRay(mousePos);
 
-            if (!Physics.Raycast(ray, out RaycastHit hit))
+            RaycastHit hit;
+            if (IsCursorOutsideOfTerrain(ray, out hit))
                 return;
-                
 
-            AlterTerrain();
+            TerrainPos terrainHitPos = positionCalculator.CalculateTerrainPosition(hit.point);
+            terrainModifier.ModifyTerrain(terrainHitPos, input.RaiseTerrain);
         }
 
-        private static void AlterTerrain()
+        bool IsCursorOutsideOfTerrain(Ray ray, out RaycastHit hit)
         {
-            
-            // Check if cursor is over terrain
-            // Calculate what position to lower
-            // Lower it
+            return !Physics.Raycast(ray, out hit);
         }
     }
 }
