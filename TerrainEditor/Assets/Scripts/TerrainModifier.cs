@@ -31,15 +31,15 @@ namespace Assets.Scripts
             {
                 for(int z = 0; z < brush.Size * 2; z++)
                 {
-                    /*if (IsOutsideOfTerrain(x, z))
-                        continue;
+                    //if (IsOutsideOfTerrain(x, z))
+                    //continue;
 
-                    var distanceFromCenter = CalculateDistanceFromCenter(x, z, pos);
+                    var distanceFromCenter = CalculateDistanceFromCenter(brush, x, z);
 
                     if (distanceFromCenter > brush.Size)
                         continue;
 
-                    var strengthMultiplier = CaclulateStrength(distanceFromCenter, brush.Size);*/
+                    //var strengthMultiplier = CaclulateStrength(distanceFromCenter, brush.Size);
 
                     heights[z, x] = heights[z, x] += maxStrength; // * strengthMultiplier;
                 }
@@ -48,14 +48,14 @@ namespace Assets.Scripts
             terrainData.SetHeights(minX, minY, heights);
         }
 
+        private static float CalculateDistanceFromCenter(TerrainBrush brush, int x, int z)
+        {
+            return Vector2.Distance(new Vector2(x, z), new Vector2(brush.Size, brush.Size));
+        }
+
         bool IsOutsideOfTerrain(int x, int z)
         {
             return x < 0 || z < 0 || x > terrainData.heightmapResolution || z > terrainData.heightmapResolution;
-        }
-
-        float CalculateDistanceFromCenter(int x, int z, TerrainPos pos)
-        {
-            return Vector2.Distance(new Vector2(x,z), new Vector2(pos.x, pos.z));
         }
 
         float CaclulateStrength(float distance, float maxDistance)
