@@ -20,20 +20,17 @@ namespace Assets.Scripts
         {
             int minX = Mathf.Max(pos.x - brush.Size, 0);
             int minY = Mathf.Max(pos.z - brush.Size, 0);
-            int width = brush.Size * 2;
-            int height = brush.Size * 2;
+            int width = Mathf.Min(terrainData.heightmapResolution - pos.x, brush.Size * 2);
+            int height = Mathf.Min(terrainData.heightmapResolution - pos.z, brush.Size * 2);
 
             float[,] heights = terrainData.GetHeights(minX, minY, width, height);
 
             float maxStrength = raiseTerrain ? brush.Strength : -brush.Strength;
 
-            for (int x = 0; x < brush.Size * 2; x++)
+            for (int x = 0; x < width; x++)
             {
-                for(int z = 0; z < brush.Size * 2; z++)
+                for(int z = 0; z < height; z++)
                 {
-                    //if (IsOutsideOfTerrain(x, z))
-                    //continue;
-
                     var distanceFromCenter = CalculateDistanceFromCenter(brush, x, z);
 
                     if (distanceFromCenter > brush.Size)
@@ -51,11 +48,6 @@ namespace Assets.Scripts
         private static float CalculateDistanceFromCenter(TerrainBrush brush, int x, int z)
         {
             return Vector2.Distance(new Vector2(x, z), new Vector2(brush.Size, brush.Size));
-        }
-
-        bool IsOutsideOfTerrain(int x, int z)
-        {
-            return x < 0 || z < 0 || x > terrainData.heightmapResolution || z > terrainData.heightmapResolution;
         }
 
         float CaclulateStrength(float distance, float maxDistance)
