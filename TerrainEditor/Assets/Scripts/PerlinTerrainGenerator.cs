@@ -17,7 +17,7 @@ namespace Assets.Scripts
 
                 if (!terrain)
                 {
-                    Debug.LogError("Terrain null, pls plug in a terrain for perlin generator.");
+                    Debug.LogError("Terrain null, please plug in a terrain for perlin generator.");
                     Destroy(this);
                     return;
                 }
