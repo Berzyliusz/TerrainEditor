@@ -11,8 +11,6 @@ namespace Assets.Scripts
     {
         TerrainData terrainData;
 
-        float maxPossibleDistance;
-
         public TerrainModifier(TerrainData terrainData)
         {
             this.terrainData = terrainData;
@@ -20,49 +18,49 @@ namespace Assets.Scripts
 
         public void ModifyTerrain(TerrainPos pos, bool raiseTerrain, TerrainBrush brush)
         {
-            float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
+            int minX = Mathf.Max(pos.x - brush.Size, 0);
+            int minY = Mathf.Max(pos.z - brush.Size, 0);
+            int width = brush.Size * 2;
+            int height = brush.Size * 2;
+
+            float[,] heights = terrainData.GetHeights(minX, minY, width, height);
 
             float maxStrength = raiseTerrain ? brush.Strength : -brush.Strength;
 
-            maxPossibleDistance = Vector2.Distance(Vector2.zero, new Vector2(brush.Size, 0));
-
-            for (int x = -brush.Size; x < brush.Size; x++)
+            for (int x = 0; x < brush.Size * 2; x++)
             {
-                for(int z = -brush.Size; z < brush.Size; z++)
+                for(int z = 0; z < brush.Size * 2; z++)
                 {
-                    var xToApply = pos.x + x;
-                    var zToApply = pos.z + z;
-
-                    if (IsOutsideOfTerrain(xToApply, zToApply))
+                    /*if (IsOutsideOfTerrain(x, z))
                         continue;
 
-                    var distanceFromCenter = CalculateDistanceFromCenter(x, z);
+                    var distanceFromCenter = CalculateDistanceFromCenter(x, z, pos);
 
                     if (distanceFromCenter > brush.Size)
                         continue;
 
-                    var strengthMultiplier = CaclulateStrength(distanceFromCenter);
+                    var strengthMultiplier = CaclulateStrength(distanceFromCenter, brush.Size);*/
 
-                    heights[zToApply, xToApply] = heights[zToApply, xToApply] += maxStrength * strengthMultiplier;
+                    heights[z, x] = heights[z, x] += maxStrength; // * strengthMultiplier;
                 }
             }
 
-            terrainData.SetHeights(0, 0, heights);
-        }
-
-        float CalculateDistanceFromCenter(int x, int z)
-        {
-            return Vector2.Distance(new Vector2(x,z), new Vector2(0,0));
-        }
-
-        float CaclulateStrength(float distance)
-        {
-            return 1 - distance / maxPossibleDistance;
+            terrainData.SetHeights(minX, minY, heights);
         }
 
         bool IsOutsideOfTerrain(int x, int z)
         {
             return x < 0 || z < 0 || x > terrainData.heightmapResolution || z > terrainData.heightmapResolution;
+        }
+
+        float CalculateDistanceFromCenter(int x, int z, TerrainPos pos)
+        {
+            return Vector2.Distance(new Vector2(x,z), new Vector2(pos.x, pos.z));
+        }
+
+        float CaclulateStrength(float distance, float maxDistance)
+        {
+            return 1 - distance / maxDistance;
         }
     }
 }
