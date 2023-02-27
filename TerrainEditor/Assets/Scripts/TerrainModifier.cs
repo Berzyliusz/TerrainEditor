@@ -39,9 +39,9 @@ namespace Assets.Scripts
                     if (distanceFromCenter > brush.Size)
                         continue;
 
-                    //var strengthMultiplier = CaclulateStrength(distanceFromCenter, brush.Size);
+                    var strengthMultiplier = CaclulateStrength(distanceFromCenter, brush.Size);
 
-                    heights[z, x] = heights[z, x] += maxStrength; // * strengthMultiplier;
+                    heights[z, x] = heights[z, x] += maxStrength * strengthMultiplier;
                 }
             }
 
