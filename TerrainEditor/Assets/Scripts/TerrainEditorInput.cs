@@ -14,9 +14,9 @@ namespace Assets.Scripts
 
     public class TerrainEditorInput : ITerrainEditorInput
     {
-        public bool RaiseTerrain => Input.GetMouseButton(0) && !anyShiftPressed;
+        public bool RaiseTerrain => Input.GetMouseButton(0) && anyShiftPressed;
 
-        public bool LowerTerrain => Input.GetMouseButton(0) && anyShiftPressed;
+        public bool LowerTerrain => Input.GetMouseButton(0) && !anyShiftPressed;
 
         public Vector3 MousePosition => Input.mousePosition;
 

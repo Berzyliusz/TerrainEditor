@@ -4,25 +4,21 @@ namespace Assets.Scripts
 {
     public interface ITerrainModifier
     {
-        void ModifyTerrain(TerrainPos pos, bool raiseTerrain);
+        void ModifyTerrain(TerrainPos pos, bool raiseTerrain, TerrainBrush brush);
     }
 
     public class TerrainModifier : ITerrainModifier
     {
-        Terrain terrain;
         TerrainData terrainData;
-        TerrainBrush brush;
 
         float maxPossibleDistance;
 
-        public TerrainModifier(Terrain terrain, TerrainBrush brush)
+        public TerrainModifier(TerrainData terrainData)
         {
-            this.brush= brush;
-            this.terrain = terrain;
-            terrainData = terrain.terrainData;
+            this.terrainData = terrainData;
         }
 
-        public void ModifyTerrain(TerrainPos pos, bool raiseTerrain)
+        public void ModifyTerrain(TerrainPos pos, bool raiseTerrain, TerrainBrush brush)
         {
             float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
 
